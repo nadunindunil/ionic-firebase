@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { FirebaseListObservable } from 'angularfire2/database-deprecated';
+import { FirebaseProvider } from './../../providers/firebase/firebase';
 
 
 @IonicPage()
@@ -10,9 +12,13 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class HomePage {
 
+  shoppingItems: FirebaseListObservable<any[]>;
+  newItem = '';
+
   constructor(private afAuth: AngularFireAuth, private toast: ToastController,
-    public navCtrl: NavController, public navParams: NavParams) {
-  }
+    public navCtrl: NavController, public navParams: NavParams,public firebaseProvider: FirebaseProvider) {
+      this.shoppingItems = this.firebaseProvider.getShoppingItems();
+    }
 
   ionViewWillLoad() {
     this.afAuth.authState.subscribe(data => {
@@ -29,5 +35,13 @@ export class HomePage {
         }).present();
       }
     })
+  }
+
+  addItem() {
+    this.firebaseProvider.addItem(this.newItem);
+  }
+ 
+  removeItem(id) {
+    this.firebaseProvider.removeItem(id);
   }
 }
