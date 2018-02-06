@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database-deprecated';
+import { AngularFirestore } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
+import {ShoppingItem} from '../../interfaces/ShoppingItems';
 
 /*
   Generated class for the FirebaseProvider provider.
@@ -10,20 +11,29 @@ import 'rxjs/add/operator/map';
   nadun@gmail.com 12345678
   nadun1indunil@gmail.com 1234567
 */
+
 @Injectable()
 export class FirebaseProvider {
  
-  constructor(public afd: AngularFireDatabase) { }
+  constructor(public afs: AngularFirestore) { }
  
   getShoppingItems() {
-    return this.afd.list('/shoppingItems/');
+    // return this.afd.list('/shoppingItems/');
+    return this.afs.collection<ShoppingItem>('shoppingItems');
   }
  
-  addItem(name) {
-    this.afd.list('/shoppingItems/').push(name);
+  addItem(nameOf) {
+    // this.afd.list('/shoppingItems/').push(name);
+    this.afs.collection<ShoppingItem>('shoppingItems').add({
+      name: nameOf,
+      }).then((added)=>{
+      console.log(added.id);
+      }).catch((e)=>{
+      console.log("Error",e);
+      })
   }
  
   removeItem(id) {
-    this.afd.list('/shoppingItems/').remove(id);
+    this.afs.collection<ShoppingItem>('shoppingItems').doc(id).delete();
   }
 }

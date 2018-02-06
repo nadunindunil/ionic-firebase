@@ -27,10 +27,10 @@
   <ion-list>
     <ion-item-sliding *ngFor="let item of shoppingItems | async">
       <ion-item>
-        {{ item.$value }}
+        {{ item.name }}
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="danger" icon-only (click)="removeItem(item.$key)"><ion-icon name="trash"></ion-icon></button>
+        <button ion-button color="danger" icon-only (click)="removeItem(item.id)"><ion-icon name="trash"></ion-icon></button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

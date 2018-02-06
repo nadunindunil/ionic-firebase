@@ -10,7 +10,7 @@ import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
 import { FirebaseProvider } from '../providers/firebase/firebase';
-import { AngularFireDatabaseModule } from 'angularfire2/database-deprecated';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database-deprecated';
     HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireDatabaseModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
