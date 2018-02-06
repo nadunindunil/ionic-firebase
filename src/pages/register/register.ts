@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User } from "../../models/user";
 import { AngularFireAuth } from "angularfire2/auth";
-import { AngularFireDatabase } from 'angularfire2/database-deprecated';
+import { AngularFirestore } from 'angularfire2/firestore';
+
 
 @IonicPage()
 @Component({
@@ -13,15 +14,23 @@ export class RegisterPage {
 
   user = {} as User;
 
-  constructor(private afAuth: AngularFireAuth, private adDB: AngularFireDatabase,
+  constructor(private afAuth: AngularFireAuth, public afs: AngularFirestore,
     public navCtrl: NavController, public navParams: NavParams) {
   }
 
   async register(user: User) {
     try {
       const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-      const fResult = await this.adDB.database.ref('/users').child(result.uid).set({ email: user.email });    
-      console.log(fResult);
+
+      const data: any = {
+        uid: result.uid,
+        email: user.email
+      }
+
+      const finResult = await this.afs.doc(`users/${data.uid}`).set(data);
+
+      // const fResult = await this.afs.database.ref('/users').child(result.uid).set({ email: user.email });    
+      console.log(finResult);
     }
     catch (e) {
       console.error(e);

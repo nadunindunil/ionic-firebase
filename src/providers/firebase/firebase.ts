@@ -9,7 +9,7 @@ import {ShoppingItem} from '../../interfaces/ShoppingItems';
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
   nadun@gmail.com 12345678
-  nadun1indunil@gmail.com 1234567
+  nadun2@gmail.com 12345678
 */
 
 @Injectable()

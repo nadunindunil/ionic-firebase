@@ -1,4 +1,21 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# FireStore example with IONIC 3
+
+added rules in firestore: 
+
+```
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    match /users/{user} {
+      allow read, write:if request.auth.uid != null;
+    }
+    
+    match /shoppingItems/{item} {
+      allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true;
+    }
+  }
+}
+```
 
 ## How to use this template
 
